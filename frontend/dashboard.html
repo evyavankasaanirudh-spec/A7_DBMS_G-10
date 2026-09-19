@@ -1,0 +1,2354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Insurance Claim Fraud Dashboard</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #222;
+        }
+
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        .header {
+            background: #1f2937;
+            color: white;
+
+            padding: 20px 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+
+        .user-info {
+            text-align: right;
+            font-size: 14px;
+        }
+
+
+        .logout-button {
+            margin-top: 8px;
+
+            padding: 8px 15px;
+
+            border: none;
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            background: #dc2626;
+            color: white;
+
+            font-weight: bold;
+        }
+
+
+        .logout-button:hover {
+            opacity: 0.85;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
+
+        .container {
+            max-width: 1400px;
+
+            margin: 30px auto;
+
+            padding: 0 20px;
+        }
+
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+
+        .section-title {
+            margin-bottom: 15px;
+
+            color: #1f2937;
+        }
+
+
+        /* =========================
+           CARDS
+           ========================= */
+
+        .card-container {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px, 1fr)
+                );
+
+            gap: 20px;
+        }
+
+
+        .card {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .stat-card {
+            text-align: center;
+        }
+
+
+        .stat-title {
+            font-size: 14px;
+
+            color: #666;
+
+            margin-bottom: 10px;
+        }
+
+
+        .stat-value {
+            font-size: 30px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           FORM
+           ========================= */
+
+        form {
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.08);
+        }
+
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            font-weight: bold;
+        }
+
+
+        .form-group input,
+        .form-group textarea {
+
+            width: 100%;
+
+            padding: 10px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 6px;
+
+            font-size: 14px;
+        }
+
+
+        .form-group textarea {
+
+            min-height: 100px;
+
+            resize: vertical;
+        }
+
+
+        /* =========================
+           BUTTONS
+           ========================= */
+
+        .submit-button,
+        .process-button {
+
+            padding: 10px 16px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        .submit-button {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .submit-button:hover,
+        .process-button:hover {
+
+            opacity: 0.85;
+        }
+
+
+        .process-button {
+
+            background: #16a34a;
+
+            color: white;
+        }
+
+
+        /* =========================
+           TABLES
+           ========================= */
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 20px;
+        }
+
+
+        th,
+        td {
+
+            padding: 10px;
+
+            border-bottom: 1px solid #ddd;
+
+            text-align: center;
+
+            white-space: nowrap;
+        }
+
+
+        th {
+
+            background: #f3f4f6;
+
+            font-weight: bold;
+        }
+
+
+        tr:hover {
+
+            background: #f9fafb;
+        }
+
+
+        /* =========================
+           MESSAGES
+           ========================= */
+
+        .message {
+
+            margin-top: 15px;
+
+            font-weight: bold;
+        }
+
+
+        .error {
+
+            color: #dc2626;
+        }
+
+
+        .success {
+
+            color: #16a34a;
+        }
+
+
+        /* =========================
+           INFORMATION BOX
+           ========================= */
+
+        .info-box {
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 2px 8px
+                rgba(0, 0, 0, 0.08);
+
+            margin-bottom: 30px;
+        }
+
+
+        /* =========================
+           FRAUD FILTERS
+           ========================= */
+
+        .fraud-filters {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+            margin-bottom: 15px;
+        }
+
+
+        .fraud-table-analysis {
+
+            max-width: 400px;
+
+            white-space: normal;
+
+            text-align: left;
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 768px) {
+
+            .header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+
+            .user-info {
+
+                text-align: left;
+            }
+
+
+            table {
+
+                font-size: 12px;
+            }
+
+
+            th,
+            td {
+
+                padding: 7px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================================================= -->
+<!-- HEADER -->
+<!-- ================================================= -->
+
+<div class="header">
+
+    <div>
+
+        <h1>
+            Insurance Claim Fraud Dashboard
+        </h1>
+
+    </div>
+
+
+    <div class="user-info">
+
+        <div>
+
+            Logged in as:
+            <strong id="username-display">
+            </strong>
+
+        </div>
+
+
+        <div>
+
+            Role:
+            <strong id="role-display">
+            </strong>
+
+        </div>
+
+
+        <button
+            id="logout-button"
+            class="logout-button"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- ================================================= -->
+<!-- USER INFORMATION -->
+<!-- ================================================= -->
+
+<div class="info-box">
+
+    <h2>
+
+        Welcome,
+        <span id="welcome-username">
+        </span>
+
+    </h2>
+
+
+    <p id="access-message"></p>
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- DASHBOARD STATISTICS -->
+<!-- ================================================= -->
+
+<div
+    id="statistics-section"
+    class="section"
+>
+
+    <h2 class="section-title">
+
+        Dashboard Statistics
+
+    </h2>
+
+
+    <div class="card-container">
+
+
+        <div class="card stat-card">
+
+            <div class="stat-title">
+                Total Claims
+            </div>
+
+            <div
+                id="total-claims"
+                class="stat-value"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card stat-card">
+
+            <div class="stat-title">
+                Pending Claims
+            </div>
+
+            <div
+                id="pending-claims"
+                class="stat-value"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card stat-card">
+
+            <div class="stat-title">
+                Processed Claims
+            </div>
+
+            <div
+                id="processed-claims"
+                class="stat-value"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card stat-card">
+
+            <div class="stat-title">
+                Under Review
+            </div>
+
+            <div
+                id="under-review-claims"
+                class="stat-value"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card stat-card">
+
+            <div class="stat-title">
+                High Risk
+            </div>
+
+            <div
+                id="high-risk"
+                class="stat-value"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card stat-card">
+
+            <div class="stat-title">
+                Medium Risk
+            </div>
+
+            <div
+                id="medium-risk"
+                class="stat-value"
+            >
+                -
+            </div>
+
+        </div>
+
+
+        <div class="card stat-card">
+
+            <div class="stat-title">
+                Low Risk
+            </div>
+
+            <div
+                id="low-risk"
+                class="stat-value"
+            >
+                -
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- CUSTOMER - SUBMIT CLAIM -->
+<!-- ================================================= -->
+
+<div
+    id="submit-claim-section"
+    class="section"
+>
+
+    <h2 class="section-title">
+
+        Submit New Claim
+
+    </h2>
+
+
+    <form id="claim-form">
+
+
+        <div class="form-group">
+
+            <label for="policy-id">
+                Policy ID
+            </label>
+
+            <input
+                type="number"
+                id="policy-id"
+                min="1"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="claim-type">
+                Claim Type
+            </label>
+
+            <input
+                type="text"
+                id="claim-type"
+                minlength="2"
+                maxlength="100"
+                placeholder="Example: Vehicle Insurance"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="claim-amount">
+                Claim Amount
+            </label>
+
+            <input
+                type="number"
+                id="claim-amount"
+                min="0.01"
+                step="0.01"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="claim-date">
+                Claim Date
+            </label>
+
+            <input
+                type="date"
+                id="claim-date"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label for="description">
+                Description
+            </label>
+
+            <textarea
+                id="description"
+                minlength="5"
+                maxlength="500"
+                placeholder="Describe the claim..."
+                required
+            ></textarea>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="submit-button"
+        >
+            Submit Claim
+        </button>
+
+
+        <p
+            id="claim-message"
+            class="message"
+        ></p>
+
+
+    </form>
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- CUSTOMER - MY CLAIMS -->
+<!-- ================================================= -->
+
+<div
+    id="my-claims-section"
+    class="section"
+>
+
+    <h2 class="section-title">
+
+        My Claims
+
+    </h2>
+
+
+    <div
+        class="card"
+        style="
+            text-align:left;
+            overflow-x:auto;
+        "
+    >
+
+
+        <button
+            id="refresh-claims-button"
+            class="submit-button"
+            type="button"
+        >
+            Refresh My Claims
+        </button>
+
+
+        <p
+            id="my-claims-message"
+            class="message"
+        ></p>
+
+
+        <table id="my-claims-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Claim ID
+                    </th>
+
+                    <th>
+                        Policy ID
+                    </th>
+
+                    <th>
+                        Claim Type
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Claim Date
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="my-claims-body">
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- ADMIN / OFFICER - ALL CLAIMS -->
+<!-- ================================================= -->
+
+<div
+    id="all-claims-section"
+    class="section"
+>
+
+    <h2 class="section-title">
+
+        All Claims
+
+    </h2>
+
+
+    <div
+        class="card"
+        style="
+            text-align:left;
+            overflow-x:auto;
+        "
+    >
+
+
+        <button
+            id="refresh-all-claims-button"
+            class="submit-button"
+            type="button"
+        >
+            Refresh Claims
+        </button>
+
+
+        <p
+            id="all-claims-message"
+            class="message"
+        ></p>
+
+
+        <table id="all-claims-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Claim ID
+                    </th>
+
+                    <th>
+                        Customer ID
+                    </th>
+
+                    <th>
+                        Policy ID
+                    </th>
+
+                    <th>
+                        Claim Type
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Claim Date
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="all-claims-body">
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- ================================================= -->
+<!-- FRAUD ANALYSIS -->
+<!-- ================================================= -->
+
+<div
+    id="fraud-analysis-section"
+    class="section"
+>
+
+    <h2 class="section-title">
+
+        Fraud Analysis
+
+    </h2>
+
+
+    <div
+        class="card"
+        style="
+            text-align:left;
+            overflow-x:auto;
+        "
+    >
+
+
+        <div class="fraud-filters">
+
+
+            <button
+                class="submit-button"
+                type="button"
+                onclick="loadFraudAnalysis('All')"
+            >
+                All
+            </button>
+
+
+            <button
+                class="submit-button"
+                type="button"
+                onclick="loadFraudAnalysis('High')"
+            >
+                High Risk
+            </button>
+
+
+            <button
+                class="submit-button"
+                type="button"
+                onclick="loadFraudAnalysis('Medium')"
+            >
+                Medium Risk
+            </button>
+
+
+            <button
+                class="submit-button"
+                type="button"
+                onclick="loadFraudAnalysis('Low')"
+            >
+                Low Risk
+            </button>
+
+
+        </div>
+
+
+        <p
+            id="fraud-analysis-message"
+            class="message"
+        >
+            Loading fraud analysis...
+        </p>
+
+
+        <table id="fraud-analysis-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Claim ID
+                    </th>
+
+                    <th>
+                        Risk Score
+                    </th>
+
+                    <th>
+                        Risk Level
+                    </th>
+
+                    <th>
+                        Claim Amount
+                    </th>
+
+                    <th>
+                        Analysis
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="fraud-analysis-body">
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+// =====================================================
+// API CONFIGURATION
+// =====================================================
+
+const API_BASE =
+    "http://127.0.0.1:8000";
+
+
+
+// =====================================================
+// LOGIN INFORMATION
+// =====================================================
+
+const token =
+    localStorage.getItem(
+        "access_token"
+    );
+
+
+const username =
+    localStorage.getItem(
+        "username"
+    );
+
+
+const role =
+    localStorage.getItem(
+        "role"
+    );
+
+
+
+// =====================================================
+// AUTHENTICATION CHECK
+// =====================================================
+
+if (!token) {
+
+    window.location.replace(
+        "/frontend/login.html"
+    );
+
+}
+
+
+
+// =====================================================
+// DISPLAY USER INFORMATION
+// =====================================================
+
+document.getElementById(
+    "username-display"
+).textContent =
+    username || "User";
+
+
+document.getElementById(
+    "role-display"
+).textContent =
+    role || "Unknown";
+
+
+document.getElementById(
+    "welcome-username"
+).textContent =
+    username || "User";
+
+
+
+// =====================================================
+// AUTH HEADERS
+// =====================================================
+
+function authHeaders() {
+
+    return {
+
+        "Authorization":
+            `Bearer ${token}`
+
+    };
+
+}
+
+
+
+// =====================================================
+// LOGOUT
+// =====================================================
+
+document.getElementById(
+    "logout-button"
+).addEventListener(
+    "click",
+    function () {
+
+
+        localStorage.removeItem(
+            "access_token"
+        );
+
+
+        localStorage.removeItem(
+            "username"
+        );
+
+
+        localStorage.removeItem(
+            "role"
+        );
+
+
+        localStorage.removeItem(
+            "customer_id"
+        );
+
+
+        window.location.replace(
+            "/frontend/login.html"
+        );
+
+
+    }
+);
+
+
+
+// =====================================================
+// LOAD DASHBOARD STATISTICS
+// =====================================================
+
+async function loadDashboard() {
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_BASE}/dashboard-summary`,
+                {
+                    headers:
+                        authHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.clear();
+
+            window.location.replace(
+                "/frontend/login.html"
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Failed to load dashboard"
+            );
+
+        }
+
+
+        document.getElementById(
+            "total-claims"
+        ).textContent =
+            data.claims.total;
+
+
+        document.getElementById(
+            "pending-claims"
+        ).textContent =
+            data.claims.pending;
+
+
+        document.getElementById(
+            "processed-claims"
+        ).textContent =
+            data.claims.processed;
+
+
+        document.getElementById(
+            "under-review-claims"
+        ).textContent =
+            data.claims.under_review;
+
+
+        document.getElementById(
+            "high-risk"
+        ).textContent =
+            data.fraud.high;
+
+
+        document.getElementById(
+            "medium-risk"
+        ).textContent =
+            data.fraud.medium;
+
+
+        document.getElementById(
+            "low-risk"
+        ).textContent =
+            data.fraud.low;
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+    }
+
+}
+
+
+
+// =====================================================
+// CUSTOMER - SUBMIT CLAIM
+// =====================================================
+
+document.getElementById(
+    "claim-form"
+).addEventListener(
+    "submit",
+    async function (event) {
+
+
+        event.preventDefault();
+
+
+        const message =
+            document.getElementById(
+                "claim-message"
+            );
+
+
+        message.textContent =
+            "Submitting claim...";
+
+
+        message.className =
+            "message";
+
+
+        const claimData = {
+
+
+            policy_id:
+                Number(
+                    document.getElementById(
+                        "policy-id"
+                    ).value
+                ),
+
+
+            claim_type:
+                document.getElementById(
+                    "claim-type"
+                ).value,
+
+
+            claim_amount:
+                Number(
+                    document.getElementById(
+                        "claim-amount"
+                    ).value
+                ),
+
+
+            claim_date:
+                document.getElementById(
+                    "claim-date"
+                ).value,
+
+
+            description:
+                document.getElementById(
+                    "description"
+                ).value
+
+
+        };
+
+
+        try {
+
+
+            const response =
+                await fetch(
+                    `${API_BASE}/claims`,
+                    {
+
+                        method:
+                            "POST",
+
+                        headers: {
+
+                            ...authHeaders(),
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify(
+                                claimData
+                            )
+
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
+
+                localStorage.clear();
+
+                window.location.replace(
+                    "/frontend/login.html"
+                );
+
+                return;
+
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.detail ||
+                    "Failed to submit claim"
+                );
+
+            }
+
+
+            message.textContent =
+                `Claim submitted successfully! Claim ID: ${data.claim_id}`;
+
+
+            message.className =
+                "message success";
+
+
+            document.getElementById(
+                "claim-form"
+            ).reset();
+
+
+            await loadMyClaims();
+
+
+        }
+
+        catch (error) {
+
+
+            console.error(error);
+
+
+            message.textContent =
+                "Unable to submit claim: " +
+                error.message;
+
+
+            message.className =
+                "message error";
+
+
+        }
+
+    }
+);
+
+
+
+// =====================================================
+// CUSTOMER - LOAD MY CLAIMS
+// =====================================================
+
+async function loadMyClaims() {
+
+
+    const message =
+        document.getElementById(
+            "my-claims-message"
+        );
+
+
+    const body =
+        document.getElementById(
+            "my-claims-body"
+        );
+
+
+    message.textContent =
+        "Loading your claims...";
+
+
+    message.className =
+        "message";
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_BASE}/my-claims`,
+                {
+                    headers:
+                        authHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.clear();
+
+            window.location.replace(
+                "/frontend/login.html"
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Failed to load your claims"
+            );
+
+        }
+
+
+        body.innerHTML = "";
+
+
+        if (
+            !data.claims ||
+            data.claims.length === 0
+        ) {
+
+            message.textContent =
+                "No claims submitted yet.";
+
+            return;
+
+        }
+
+
+        data.claims.forEach(
+            claim => {
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${claim.claim_id}
+                    </td>
+
+                    <td>
+                        ${claim.policy_id}
+                    </td>
+
+                    <td>
+                        ${claim.claim_type}
+                    </td>
+
+                    <td>
+                        ₹${Number(
+                            claim.claim_amount
+                        ).toLocaleString("en-IN")}
+                    </td>
+
+                    <td>
+                        ${claim.claim_date}
+                    </td>
+
+                    <td>
+                        ${claim.status}
+                    </td>
+
+                `;
+
+
+                body.appendChild(
+                    row
+                );
+
+
+            }
+        );
+
+
+        message.textContent =
+            `Showing ${data.claims.length} claim(s).`;
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(error);
+
+
+        message.textContent =
+            "Unable to load your claims: " +
+            error.message;
+
+
+        message.className =
+            "message error";
+
+
+    }
+
+}
+
+
+
+// =====================================================
+// ADMIN / OFFICER - LOAD ALL CLAIMS
+// =====================================================
+
+async function loadAllClaims() {
+
+
+    const message =
+        document.getElementById(
+            "all-claims-message"
+        );
+
+
+    const body =
+        document.getElementById(
+            "all-claims-body"
+        );
+
+
+    message.textContent =
+        "Loading claims...";
+
+
+    message.className =
+        "message";
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_BASE}/claims`,
+                {
+                    headers:
+                        authHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.clear();
+
+            window.location.replace(
+                "/frontend/login.html"
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Failed to load claims"
+            );
+
+        }
+
+
+        body.innerHTML = "";
+
+
+        if (
+            !data.claims ||
+            data.claims.length === 0
+        ) {
+
+            message.textContent =
+                "No claims found.";
+
+            return;
+
+        }
+
+
+        data.claims.forEach(
+            claim => {
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                let actionHTML;
+
+
+                if (
+                    claim.status === "Pending"
+                ) {
+
+
+                    actionHTML = `
+
+                        <button
+                            class="process-button"
+                            onclick="processClaim(
+                                ${claim.claim_id}
+                            )"
+                        >
+                            Process Claim
+                        </button>
+
+                    `;
+
+
+                }
+
+                else {
+
+
+                    actionHTML = `
+
+                        <span>
+                            Already Processed
+                        </span>
+
+                    `;
+
+                }
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${claim.claim_id}
+                    </td>
+
+                    <td>
+                        ${claim.customer_id}
+                    </td>
+
+                    <td>
+                        ${claim.policy_id}
+                    </td>
+
+                    <td>
+                        ${claim.claim_type}
+                    </td>
+
+                    <td>
+                        ₹${Number(
+                            claim.claim_amount
+                        ).toLocaleString("en-IN")}
+                    </td>
+
+                    <td>
+                        ${claim.claim_date}
+                    </td>
+
+                    <td>
+                        ${claim.status}
+                    </td>
+
+                    <td>
+                        ${actionHTML}
+                    </td>
+
+                `;
+
+
+                body.appendChild(
+                    row
+                );
+
+
+            }
+        );
+
+
+        message.textContent =
+            `Showing ${data.claims.length} claim(s).`;
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(error);
+
+
+        message.textContent =
+            "Unable to load claims: " +
+            error.message;
+
+
+        message.className =
+            "message error";
+
+
+    }
+
+}
+
+
+
+// =====================================================
+// PROCESS CLAIM
+// =====================================================
+
+async function processClaim(
+    claimId
+) {
+
+
+    const message =
+        document.getElementById(
+            "all-claims-message"
+        );
+
+
+    message.textContent =
+        `Processing claim #${claimId}...`;
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `${API_BASE}/process/${claimId}`,
+                {
+
+                    method:
+                        "GET",
+
+                    headers:
+                        authHeaders()
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.clear();
+
+            window.location.replace(
+                "/frontend/login.html"
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Failed to process claim"
+            );
+
+        }
+
+
+        alert(
+            `Claim #${claimId} processed successfully!`
+        );
+
+
+        await loadAllClaims();
+
+
+        await loadDashboard();
+
+
+        await loadFraudAnalysis();
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(error);
+
+
+        message.textContent =
+            "Unable to process claim: " +
+            error.message;
+
+
+        message.className =
+            "message error";
+
+
+    }
+
+}
+
+
+
+// =====================================================
+// FRAUD ANALYSIS
+// =====================================================
+
+async function loadFraudAnalysis(
+    riskLevel = "All"
+) {
+
+
+    const message =
+        document.getElementById(
+            "fraud-analysis-message"
+        );
+
+
+    const body =
+        document.getElementById(
+            "fraud-analysis-body"
+        );
+
+
+    message.textContent =
+        "Loading fraud analysis...";
+
+
+    message.className =
+        "message";
+
+
+    try {
+
+
+        let url =
+            `${API_BASE}/fraud-analysis`;
+
+
+        if (
+            riskLevel !== "All"
+        ) {
+
+
+            url =
+                `${API_BASE}/fraud-analysis/filter?risk_level=${encodeURIComponent(
+                    riskLevel
+                )}`;
+
+
+        }
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    headers:
+                        authHeaders()
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            response.status === 401 ||
+            response.status === 403
+        ) {
+
+            localStorage.clear();
+
+            window.location.replace(
+                "/frontend/login.html"
+            );
+
+            return;
+
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.detail ||
+                "Failed to load fraud analysis"
+            );
+
+        }
+
+
+        body.innerHTML = "";
+
+
+        /*
+         * Supports several possible response
+         * structures from the backend.
+         */
+
+        const records =
+            Array.isArray(data)
+                ? data
+                : (
+                    data.fraud_analysis ||
+                    data.analysis ||
+                    data.records ||
+                    []
+                );
+
+
+        if (
+            records.length === 0
+        ) {
+
+
+            message.textContent =
+                `No ${
+                    riskLevel === "All"
+                        ? ""
+                        : riskLevel + " "
+                }fraud analysis records found.`;
+
+
+            return;
+
+        }
+
+
+        records.forEach(
+            record => {
+
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                const claimId =
+                    record.claim_id ??
+                    record.id ??
+                    "-";
+
+
+                const riskScore =
+                    record.risk_score ??
+                    record.score ??
+                    "-";
+
+
+                const risk =
+                    record.risk_level ??
+                    record.risk ??
+                    record.level ??
+                    "-";
+
+
+                const claimAmount =
+                    record.claim_amount ??
+                    record.amount ??
+                    null;
+
+
+                const analysis =
+                    record.analysis ??
+                    record.reason ??
+                    record.description ??
+                    "-";
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${claimId}
+                    </td>
+
+                    <td>
+                        ${riskScore}
+                    </td>
+
+                    <td>
+                        ${risk}
+                    </td>
+
+                    <td>
+                        ${
+                            claimAmount !== null
+                            ? "₹" +
+                              Number(
+                                  claimAmount
+                              ).toLocaleString(
+                                  "en-IN"
+                              )
+                            : "-"
+                        }
+                    </td>
+
+                    <td
+                        class="fraud-table-analysis"
+                    >
+                        ${analysis}
+                    </td>
+
+                `;
+
+
+                body.appendChild(
+                    row
+                );
+
+
+            }
+        );
+
+
+        message.textContent =
+            `Showing ${records.length} fraud analysis record(s).`;
+
+
+    }
+
+    catch (error) {
+
+
+        console.error(
+            "Fraud analysis error:",
+            error
+        );
+
+
+        message.textContent =
+            "Unable to load fraud analysis: " +
+            error.message;
+
+
+        message.className =
+            "message error";
+
+
+    }
+
+}
+
+
+
+// =====================================================
+// REFRESH BUTTONS
+// =====================================================
+
+document.getElementById(
+    "refresh-claims-button"
+).addEventListener(
+    "click",
+    loadMyClaims
+);
+
+
+document.getElementById(
+    "refresh-all-claims-button"
+).addEventListener(
+    "click",
+    loadAllClaims
+);
+
+
+
+// =====================================================
+// ROLE-BASED VISIBILITY
+// =====================================================
+
+const statisticsSection =
+    document.getElementById(
+        "statistics-section"
+    );
+
+
+const submitClaimSection =
+    document.getElementById(
+        "submit-claim-section"
+    );
+
+
+const myClaimsSection =
+    document.getElementById(
+        "my-claims-section"
+    );
+
+
+const allClaimsSection =
+    document.getElementById(
+        "all-claims-section"
+    );
+
+
+const fraudAnalysisSection =
+    document.getElementById(
+        "fraud-analysis-section"
+    );
+
+
+const accessMessage =
+    document.getElementById(
+        "access-message"
+    );
+
+
+
+// =====================================================
+// CUSTOMER
+// =====================================================
+
+if (
+    role === "Customer"
+) {
+
+
+    statisticsSection.style.display =
+        "none";
+
+
+    allClaimsSection.style.display =
+        "none";
+
+
+    fraudAnalysisSection.style.display =
+        "none";
+
+
+    submitClaimSection.style.display =
+        "block";
+
+
+    myClaimsSection.style.display =
+        "block";
+
+
+    accessMessage.textContent =
+        "Customer access: You can submit and view your own claims.";
+
+
+    loadMyClaims();
+
+}
+
+
+
+// =====================================================
+// ADMIN / CLAIM OFFICER
+// =====================================================
+
+else if (
+
+    role === "Admin" ||
+    role === "Claim Officer"
+
+) {
+
+
+    submitClaimSection.style.display =
+        "none";
+
+
+    myClaimsSection.style.display =
+        "none";
+
+
+    statisticsSection.style.display =
+        "block";
+
+
+    allClaimsSection.style.display =
+        "block";
+
+
+    fraudAnalysisSection.style.display =
+        "block";
+
+
+    accessMessage.textContent =
+        "Internal access: You can view, process, and analyze claims.";
+
+
+    loadDashboard();
+
+
+    loadAllClaims();
+
+
+    loadFraudAnalysis();
+
+}
+
+
+
+// =====================================================
+// UNKNOWN ROLE
+// =====================================================
+
+else {
+
+
+    accessMessage.textContent =
+        "Unknown user role.";
+
+
+    submitClaimSection.style.display =
+        "none";
+
+
+    myClaimsSection.style.display =
+        "none";
+
+
+    statisticsSection.style.display =
+        "none";
+
+
+    allClaimsSection.style.display =
+        "none";
+
+
+    fraudAnalysisSection.style.display =
+        "none";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
