@@ -20,3 +20,10 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+!.env.example
+
+# Generated local vector database
+r ag_data/vector_db/
+
+# Generated local vector database
+rag_data/vector_db/
