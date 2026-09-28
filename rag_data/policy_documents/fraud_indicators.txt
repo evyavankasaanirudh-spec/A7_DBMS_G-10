@@ -1,0 +1,11 @@
+Insurance Fraud Risk Indicators
+
+Certain claim characteristics may require additional review for potential fraud risk.
+
+Examples of possible indicators include unusually high claim amounts, multiple previous claims, and claims submitted shortly after a policy becomes active.
+
+These indicators do not by themselves establish that a claim is fraudulent.
+
+Claims with potential risk indicators may require additional verification, supporting documentation, or manual review.
+
+Fraud assessment should be performed using the applicable rules, policy information, claim history, and available evidence.

@@ -1,0 +1,9 @@
+Health Insurance Claim Requirements
+
+A health insurance claim may require documents such as the insurance policy details, hospital bills, discharge summary, medical reports, prescriptions, and other treatment-related documents.
+
+For hospitalization claims, the insurer may verify the treatment details, hospital information, admission and discharge dates, and expenses incurred.
+
+The claimant should provide accurate medical and billing information and submit the required documents according to the applicable policy procedure.
+
+Coverage and reimbursement depend on the terms, exclusions, limits, and conditions of the insurance policy.

@@ -1,392 +1,399 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Insurance Claim Fraud Detection - Login</title>
+```
+<title>Insurance Fraud Detection - Login</title>
 
-    <style>
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #24477d, #315b9e);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        body {
-            margin: 0;
-            min-height: 100vh;
+    .login-container {
+        width: 400px;
+        background: white;
+        padding: 45px 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    h1 {
+        text-align: center;
+        color: #1e4278;
+        margin-bottom: 8px;
+        font-size: 25px;
+    }
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #1e3c72,
-                    #2a5298
-                );
-        }
+    .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 32px;
+        font-size: 14px;
+    }
 
-        .login-container {
-            width: 400px;
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #222;
+    }
 
-            background: white;
+    input {
+        width: 100%;
+        padding: 13px;
+        margin-bottom: 18px;
+        border: 1px solid #ccc;
+        border-radius: 7px;
+        font-size: 14px;
+    }
 
-            padding: 40px;
+    input:focus {
+        outline: none;
+        border-color: #315b9e;
+    }
 
-            border-radius: 15px;
+    button {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 7px;
+        background: #315b9e;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-            box-shadow:
-                0 10px 30px
-                rgba(0, 0, 0, 0.25);
-        }
+    button:hover {
+        background: #24477d;
+    }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #1e3c72;
-        }
+    button:disabled {
+        background: #8a9bb8;
+        cursor: not-allowed;
+    }
 
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-        }
+    #message {
+        text-align: center;
+        margin-top: 18px;
+        font-size: 14px;
+        min-height: 20px;
+    }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
+    .error {
+        color: #d93025;
+    }
 
-        input {
-            width: 100%;
-            padding: 12px;
+    .success {
+        color: #188038;
+    }
 
-            border: 1px solid #ccc;
-
-            border-radius: 7px;
-
-            font-size: 15px;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #2a5298;
-        }
-
-        button {
-            width: 100%;
-
-            margin-top: 25px;
-
-            padding: 13px;
-
-            border: none;
-
-            border-radius: 7px;
-
-            background: #2a5298;
-
-            color: white;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1e3c72;
-        }
-
-        #message {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .footer {
-            margin-top: 25px;
-
-            text-align: center;
-
-            font-size: 12px;
-
-            color: #777;
-        }
-
-    </style>
+    .footer {
+        text-align: center;
+        margin-top: 25px;
+        color: #777;
+        font-size: 12px;
+    }
+</style>
+```
 
 </head>
 
-
 <body>
-
 
 <div class="login-container">
 
-    <h1>
-        Insurance Fraud Detection
-    </h1>
+```
+<h1>Insurance Fraud Detection</h1>
 
-    <div class="subtitle">
-        Secure User Login
-    </div>
+<div class="subtitle">
+    Secure User Login
+</div>
 
+<form id="loginForm">
 
-    <form id="loginForm">
+    <label for="username">Username</label>
+    <input
+        type="text"
+        id="username"
+        placeholder="Enter username"
+        required
+    >
 
-        <label for="username">
-            Username
-        </label>
+    <label for="password">Password</label>
+    <input
+        type="password"
+        id="password"
+        placeholder="Enter password"
+        required
+    >
 
-        <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="Enter username"
-            required
-        >
+    <button type="submit" id="loginButton">
+        Login
+    </button>
 
+</form>
 
-        <label for="password">
-            Password
-        </label>
+<div id="message"></div>
 
-        <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter password"
-            required
-        >
-
-
-        <button type="submit">
-            Login
-        </button>
-
-    </form>
-
-
-    <div id="message"></div>
-
-
-    <div class="footer">
-
-        Insurance Claim Processing and
-        Fraud Insight Platform
-
-    </div>
+<div class="footer">
+    Insurance Claim Processing and Fraud Insight Platform
+</div>
+```
 
 </div>
 
-
 <script>
 
-const API_BASE = "http://127.0.0.1:8000";
+    const loginForm = document.getElementById("loginForm");
+    const loginButton = document.getElementById("loginButton");
+    const message = document.getElementById("message");
 
 
-document
-    .getElementById("loginForm")
-    .addEventListener("submit", async function(event) {
+    function decodeJwt(token) {
+
+        try {
+
+            const parts = token.split(".");
+
+            if (parts.length !== 3) {
+                return null;
+            }
+
+            const base64 = parts[1]
+                .replace(/-/g, "+")
+                .replace(/_/g, "/");
+
+            const jsonPayload = decodeURIComponent(
+                atob(base64)
+                    .split("")
+                    .map(function(character) {
+                        return "%" +
+                            ("00" + character.charCodeAt(0).toString(16))
+                            .slice(-2);
+                    })
+                    .join("")
+            );
+
+            return JSON.parse(jsonPayload);
+
+        } catch (error) {
+
+            console.error("JWT decode error:", error);
+
+            return null;
+        }
+    }
+
+
+    loginForm.addEventListener("submit", async function(event) {
 
         event.preventDefault();
 
-
         const username =
-            document
-                .getElementById("username")
-                .value
-                .trim();
-
+            document.getElementById("username").value.trim();
 
         const password =
-            document
-                .getElementById("password")
-                .value;
+            document.getElementById("password").value;
 
 
-        const message =
-            document.getElementById("message");
+        if (!username || !password) {
+
+            message.textContent = "Please enter username and password.";
+            message.className = "error";
+
+            return;
+        }
 
 
-        message.style.color = "black";
+        loginButton.disabled = true;
+        loginButton.textContent = "Logging in...";
 
-        message.innerText = "Logging in...";
+        message.textContent = "";
+        message.className = "";
 
 
         try {
 
             /*
-             * FastAPI OAuth2PasswordRequestForm
-             * requires application/x-www-form-urlencoded
+             * IMPORTANT:
+             * We use a relative URL here.
+             *
+             * The login page is served by the API Gateway:
+             * http://127.0.0.1:8000/frontend/login.html
+             *
+             * Therefore this request goes to:
+             * http://127.0.0.1:8000/auth/login
              */
+            const response = await fetch("http://127.0.0.1:8000/auth/login", {
 
-            const formData =
-                new URLSearchParams();
+    method: "POST",
 
+    headers: {
+        "Content-Type": "application/json"
+    },
 
-            formData.append(
-                "username",
-                username
-            );
-
-
-            formData.append(
-                "password",
-                password
-            );
+    body: JSON.stringify({
+        username: username,
+        password: password
+    })
+});
 
 
-            const response =
-                await fetch(
-                    `${API_BASE}/login`,
-                    {
-                        method: "POST",
+const responseText = await response.text();
 
-                        headers: {
-                            "Content-Type":
-                                "application/x-www-form-urlencoded"
-                        },
-
-                        body: formData
-                    }
-                );
+console.log("Login HTTP status:", response.status);
+console.log("Login response:", responseText);
 
 
-            const data =
-                await response.json();
+let data = {};
+
+if (responseText.trim() !== "") {
+
+    try {
+        data = JSON.parse(responseText);
+    } catch (parseError) {
+
+        throw new Error(
+            "Server returned a non-JSON response: " +
+            responseText.substring(0, 200)
+        );
+    }
+}
+
+
+if (!response.ok) {
+
+    throw new Error(
+        data.detail ||
+        data.message ||
+        "Login failed with HTTP " + response.status
+    );
+}
+
+
+if (!data.access_token) {
+
+    throw new Error(
+        "Login response did not contain an access token."
+    );
+}
 
 
             if (!response.ok) {
 
                 throw new Error(
                     data.detail ||
+                    data.message ||
                     "Login failed"
                 );
-
             }
 
-
-            /*
-             * IMPORTANT:
-             *
-             * api.py returns:
-             *
-             * data.user.username
-             * data.user.role
-             * data.user.customer_id
-             */
 
             if (!data.access_token) {
 
                 throw new Error(
-                    "Login succeeded but no access token was received."
+                    "Login successful, but no access token was returned."
                 );
-
             }
 
 
-            const user =
-                data.user;
+            const token = data.access_token;
+
+            const payload = decodeJwt(token);
+
+
+            if (!payload) {
+
+                throw new Error(
+                    "Invalid authentication token received."
+                );
+            }
 
 
             /*
-             * Store JWT
+             * Clear previous session information.
              */
+            localStorage.clear();
 
+
+            /*
+             * Store JWT token.
+             */
             localStorage.setItem(
                 "access_token",
-                data.access_token
+                token
             );
 
 
             /*
-             * Store username
+             * Store user information from JWT.
              */
-
             localStorage.setItem(
                 "username",
-                user.username
+                payload.username || username
             );
-
-
-            /*
-             * Store role
-             */
 
             localStorage.setItem(
                 "role",
-                user.role
+                payload.role || ""
             );
 
 
-            /*
-             * Store customer ID
-             * if this is a customer.
-             */
-
-            if (
-                user.customer_id !== null &&
-                user.customer_id !== undefined
-            ) {
+            if (payload.customer_id !== null &&
+                payload.customer_id !== undefined) {
 
                 localStorage.setItem(
                     "customer_id",
-                    user.customer_id
+                    payload.customer_id
                 );
-
-            } else {
-
-                localStorage.removeItem(
-                    "customer_id"
-                );
-
             }
 
 
-            message.style.color = "green";
-
-            message.innerText =
-                "Login successful! Redirecting...";
+            message.textContent = "Login successful. Redirecting...";
+            message.className = "success";
 
 
             /*
              * Redirect to dashboard.
              */
-
             setTimeout(function() {
 
-                window.location.href =
-                    "/frontend/dashboard.html";
+                window.location.href = "/frontend/dashboard.html";
 
             }, 500);
 
 
         } catch (error) {
 
-            message.style.color = "red";
+            console.error("Login error:", error);
 
-            message.innerText =
-                "Error: " +
-                error.message;
+            message.textContent =
+                "Error: " + error.message;
 
+            message.className = "error";
+
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
         }
 
     });
 
 </script>
 
-
 </body>
-
 </html>
