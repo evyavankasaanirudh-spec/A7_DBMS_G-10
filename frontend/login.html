@@ -1,399 +1,884 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Insurance Fraud Detection - Login</title>
+    <title>Insurance Fraud Detection - Login</title>
 
-<style>
-    * {
-        box-sizing: border-box;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: Arial, sans-serif;
-        background: linear-gradient(135deg, #24477d, #315b9e);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        :root {
+            --bg: #050b14;
+            --card: rgba(15, 23, 42, 0.94);
+            --border: rgba(148, 163, 184, 0.16);
 
-    .login-container {
-        width: 400px;
-        background: white;
-        padding: 45px 40px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    }
+            --text: #e5e7eb;
+            --muted: #94a3b8;
 
-    h1 {
-        text-align: center;
-        color: #1e4278;
-        margin-bottom: 8px;
-        font-size: 25px;
-    }
+            --blue: #3b82f6;
+            --blue-dark: #2563eb;
+            --cyan: #06b6d4;
 
-    .subtitle {
-        text-align: center;
-        color: #666;
-        margin-bottom: 32px;
-        font-size: 14px;
-    }
+            --red: #f87171;
+            --green: #4ade80;
+        }
 
-    label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #222;
-    }
+        /* =====================================================
+           PAGE
+           ===================================================== */
 
-    input {
-        width: 100%;
-        padding: 13px;
-        margin-bottom: 18px;
-        border: 1px solid #ccc;
-        border-radius: 7px;
-        font-size: 14px;
-    }
+        body {
+            margin: 0;
+            min-height: 100vh;
 
-    input:focus {
-        outline: none;
-        border-color: #315b9e;
-    }
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-    button {
-        width: 100%;
-        padding: 13px;
-        border: none;
-        border-radius: 7px;
-        background: #315b9e;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-    }
+            padding: 24px;
 
-    button:hover {
-        background: #24477d;
-    }
+            font-family:
+                Inter,
+                "Segoe UI",
+                Arial,
+                sans-serif;
 
-    button:disabled {
-        background: #8a9bb8;
-        cursor: not-allowed;
-    }
+            color: var(--text);
 
-    #message {
-        text-align: center;
-        margin-top: 18px;
-        font-size: 14px;
-        min-height: 20px;
-    }
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(59, 130, 246, 0.16),
+                    transparent 32%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(6, 182, 212, 0.10),
+                    transparent 28%
+                ),
+                linear-gradient(
+                    135deg,
+                    #030712,
+                    #07111f 50%,
+                    #0a1424
+                );
+        }
 
-    .error {
-        color: #d93025;
-    }
 
-    .success {
-        color: #188038;
-    }
+        /* =====================================================
+           AMBIENT LIGHT
+           ===================================================== */
 
-    .footer {
-        text-align: center;
-        margin-top: 25px;
-        color: #777;
-        font-size: 12px;
-    }
-</style>
-```
+        body::before {
+            content: "";
+
+            position: fixed;
+
+            width: 420px;
+            height: 420px;
+
+            top: -180px;
+            right: -120px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(59, 130, 246, 0.08);
+
+            filter: blur(70px);
+
+            pointer-events: none;
+        }
+
+
+        body::after {
+            content: "";
+
+            position: fixed;
+
+            width: 360px;
+            height: 360px;
+
+            bottom: -180px;
+            left: -100px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(6, 182, 212, 0.06);
+
+            filter: blur(70px);
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           LOGIN CARD
+           ===================================================== */
+
+        .login-container {
+            position: relative;
+            z-index: 1;
+
+            width: 100%;
+            max-width: 440px;
+
+            padding: 42px 40px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(17, 24, 39, 0.96),
+                    rgba(15, 23, 42, 0.90)
+                );
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.48);
+
+            backdrop-filter: blur(20px);
+        }
+
+
+        /* =====================================================
+           LOGO
+           ===================================================== */
+
+        .logo {
+            width: 64px;
+            height: 64px;
+
+            margin: 0 auto 22px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(59, 130, 246, 0.20),
+                    rgba(6, 182, 212, 0.10)
+                );
+
+            border:
+                1px solid rgba(59, 130, 246, 0.28);
+
+            box-shadow:
+                0 12px 35px
+                rgba(37, 99, 235, 0.18);
+        }
+
+
+        .logo-icon {
+            width: 21px;
+            height: 21px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #60a5fa,
+                    #38bdf8
+                );
+
+            transform: rotate(45deg);
+
+            box-shadow:
+                0 5px 18px
+                rgba(59, 130, 246, 0.35);
+        }
+
+
+        /* =====================================================
+           TITLE
+           ===================================================== */
+
+        .login-container h1 {
+            margin:
+                0 0 8px;
+
+            text-align: center;
+
+            color: #f8fafc;
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.7px;
+        }
+
+
+        .subtitle {
+            margin:
+                0 0 30px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FORM
+           ===================================================== */
+
+        #loginForm {
+            width: 100%;
+        }
+
+
+        #loginForm label {
+            display: block;
+
+            width: 100%;
+
+            margin:
+                0 0 8px;
+
+            color: #cbd5e1;
+
+            font-size: 13px;
+
+            font-weight: 650;
+        }
+
+
+        #loginForm input {
+            display: block;
+
+            width: 100%;
+
+            margin:
+                0 0 19px;
+
+            padding:
+                13px 14px;
+
+            border:
+                1px solid rgba(148, 163, 184, 0.18);
+
+            border-radius: 9px;
+
+            background:
+                rgba(5, 13, 25, 0.78);
+
+            color: #f8fafc;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                background 0.2s ease;
+        }
+
+
+        #loginForm input::placeholder {
+            color: #64748b;
+        }
+
+
+        #loginForm input:hover {
+            border-color:
+                rgba(148, 163, 184, 0.28);
+        }
+
+
+        #loginForm input:focus {
+            background:
+                rgba(5, 13, 25, 0.95);
+
+            border-color:
+                rgba(59, 130, 246, 0.70);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(59, 130, 246, 0.10);
+        }
+
+
+        /* =====================================================
+           LOGIN BUTTON
+           ===================================================== */
+
+        #loginButton {
+            display: block;
+
+            width: 100%;
+
+            margin-top: 7px;
+
+            padding:
+                13px 16px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--blue-dark)
+                );
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            font-weight: 750;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 8px 24px
+                rgba(37, 99, 235, 0.22);
+
+            transition:
+                all 0.2s ease;
+        }
+
+
+        #loginButton:hover {
+            transform:
+                translateY(-1px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(37, 99, 235, 0.35);
+        }
+
+
+        #loginButton:active {
+            transform:
+                translateY(0);
+        }
+
+
+        #loginButton:disabled {
+            opacity: 0.65;
+
+            cursor:
+                not-allowed;
+
+            transform:
+                none;
+        }
+
+
+        /* =====================================================
+           MESSAGE
+           ===================================================== */
+
+        #message {
+            min-height: 20px;
+
+            margin-top: 16px;
+
+            text-align: center;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        #message.error {
+            padding:
+                10px 12px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(239, 68, 68, 0.08);
+
+            border:
+                1px solid rgba(239, 68, 68, 0.18);
+
+            color:
+                var(--red);
+        }
+
+
+        #message.success {
+            padding:
+                10px 12px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(34, 197, 94, 0.08);
+
+            border:
+                1px solid rgba(34, 197, 94, 0.18);
+
+            color:
+                var(--green);
+        }
+
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        .footer {
+            margin-top: 25px;
+
+            padding-top: 18px;
+
+            border-top:
+                1px solid
+                rgba(148, 163, 184, 0.10);
+
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+
+        @media (max-width: 520px) {
+
+            body {
+                padding: 16px;
+            }
+
+
+            .login-container {
+                padding:
+                    34px 24px;
+
+                border-radius:
+                    16px;
+            }
+
+
+            .login-container h1 {
+                font-size:
+                    23px;
+            }
+
+
+            .logo {
+                width: 58px;
+                height: 58px;
+            }
+        }
+    </style>
 
 </head>
 
+
 <body>
 
-<div class="login-container">
+    <div class="login-container">
 
-```
-<h1>Insurance Fraud Detection</h1>
-
-<div class="subtitle">
-    Secure User Login
-</div>
-
-<form id="loginForm">
-
-    <label for="username">Username</label>
-    <input
-        type="text"
-        id="username"
-        placeholder="Enter username"
-        required
-    >
-
-    <label for="password">Password</label>
-    <input
-        type="password"
-        id="password"
-        placeholder="Enter password"
-        required
-    >
-
-    <button type="submit" id="loginButton">
-        Login
-    </button>
-
-</form>
-
-<div id="message"></div>
-
-<div class="footer">
-    Insurance Claim Processing and Fraud Insight Platform
-</div>
-```
-
-</div>
-
-<script>
-
-    const loginForm = document.getElementById("loginForm");
-    const loginButton = document.getElementById("loginButton");
-    const message = document.getElementById("message");
+        <div class="logo">
+            <div class="logo-icon"></div>
+        </div>
 
 
-    function decodeJwt(token) {
+        <h1>
+            Insurance Fraud Detection
+        </h1>
 
-        try {
 
-            const parts = token.split(".");
+        <div class="subtitle">
+            Secure User Login
+        </div>
 
-            if (parts.length !== 3) {
+
+        <form id="loginForm">
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Enter username"
+                autocomplete="username"
+                required
+            >
+
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                id="loginButton"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <div id="message"></div>
+
+
+        <div class="footer">
+            Insurance Claim Processing and Fraud Insight Platform
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const message =
+            document.getElementById("message");
+
+
+        /* =====================================================
+           JWT DECODER
+           ===================================================== */
+
+        function decodeJwt(token) {
+
+            try {
+
+                const parts =
+                    token.split(".");
+
+                if (parts.length !== 3) {
+                    return null;
+                }
+
+
+                const base64 =
+                    parts[1]
+                        .replace(/-/g, "+")
+                        .replace(/_/g, "/");
+
+
+                const jsonPayload =
+                    decodeURIComponent(
+                        atob(base64)
+                            .split("")
+                            .map(function(character) {
+
+                                return "%" +
+                                    (
+                                        "00" +
+                                        character
+                                            .charCodeAt(0)
+                                            .toString(16)
+                                    ).slice(-2);
+
+                            })
+                            .join("")
+                    );
+
+
+                return JSON.parse(jsonPayload);
+
+            } catch (error) {
+
+                console.error(
+                    "JWT decode error:",
+                    error
+                );
+
                 return null;
             }
-
-            const base64 = parts[1]
-                .replace(/-/g, "+")
-                .replace(/_/g, "/");
-
-            const jsonPayload = decodeURIComponent(
-                atob(base64)
-                    .split("")
-                    .map(function(character) {
-                        return "%" +
-                            ("00" + character.charCodeAt(0).toString(16))
-                            .slice(-2);
-                    })
-                    .join("")
-            );
-
-            return JSON.parse(jsonPayload);
-
-        } catch (error) {
-
-            console.error("JWT decode error:", error);
-
-            return null;
-        }
-    }
-
-
-    loginForm.addEventListener("submit", async function(event) {
-
-        event.preventDefault();
-
-        const username =
-            document.getElementById("username").value.trim();
-
-        const password =
-            document.getElementById("password").value;
-
-
-        if (!username || !password) {
-
-            message.textContent = "Please enter username and password.";
-            message.className = "error";
-
-            return;
         }
 
 
-        loginButton.disabled = true;
-        loginButton.textContent = "Logging in...";
+        /* =====================================================
+           LOGIN
+           ===================================================== */
 
-        message.textContent = "";
-        message.className = "";
+        loginForm.addEventListener(
+            "submit",
+            async function(event) {
 
-
-        try {
-
-            /*
-             * IMPORTANT:
-             * We use a relative URL here.
-             *
-             * The login page is served by the API Gateway:
-             * http://127.0.0.1:8000/frontend/login.html
-             *
-             * Therefore this request goes to:
-             * http://127.0.0.1:8000/auth/login
-             */
-            const response = await fetch("http://127.0.0.1:8000/auth/login", {
-
-    method: "POST",
-
-    headers: {
-        "Content-Type": "application/json"
-    },
-
-    body: JSON.stringify({
-        username: username,
-        password: password
-    })
-});
+                event.preventDefault();
 
 
-const responseText = await response.text();
+                const username =
+                    document
+                        .getElementById("username")
+                        .value
+                        .trim();
 
-console.log("Login HTTP status:", response.status);
-console.log("Login response:", responseText);
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
 
 
-let data = {};
+                if (!username || !password) {
 
-if (responseText.trim() !== "") {
+                    message.textContent =
+                        "Please enter username and password.";
 
-    try {
-        data = JSON.parse(responseText);
-    } catch (parseError) {
+                    message.className =
+                        "error";
 
-        throw new Error(
-            "Server returned a non-JSON response: " +
-            responseText.substring(0, 200)
+                    return;
+                }
+
+
+                loginButton.disabled =
+                    true;
+
+                loginButton.textContent =
+                    "Logging in...";
+
+                message.textContent =
+                    "";
+
+                message.className =
+                    "";
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "http://127.0.0.1:8000/auth/login",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        username:
+                                            username,
+
+                                        password:
+                                            password
+                                    })
+                            }
+                        );
+
+
+                    const responseText =
+                        await response.text();
+
+
+                    console.log(
+                        "Login HTTP status:",
+                        response.status
+                    );
+
+                    console.log(
+                        "Login response:",
+                        responseText
+                    );
+
+
+                    let data = {};
+
+
+                    if (
+                        responseText.trim() !== ""
+                    ) {
+
+                        try {
+
+                            data =
+                                JSON.parse(
+                                    responseText
+                                );
+
+                        } catch (parseError) {
+
+                            throw new Error(
+                                "Server returned a non-JSON response: " +
+                                responseText.substring(
+                                    0,
+                                    200
+                                )
+                            );
+                        }
+                    }
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.detail ||
+                            data.message ||
+                            "Login failed with HTTP " +
+                            response.status
+                        );
+                    }
+
+
+                    if (!data.access_token) {
+
+                        throw new Error(
+                            "Login response did not contain an access token."
+                        );
+                    }
+
+
+                    const token =
+                        data.access_token;
+
+
+                    const payload =
+                        decodeJwt(token);
+
+
+                    if (!payload) {
+
+                        throw new Error(
+                            "Invalid authentication token received."
+                        );
+                    }
+
+
+                    /*
+                     * Clear previous session information.
+                     */
+
+                    localStorage.clear();
+
+
+                    /*
+                     * Store JWT token.
+                     */
+
+                    localStorage.setItem(
+                        "access_token",
+                        token
+                    );
+
+
+                    /*
+                     * Store user information.
+                     */
+
+                    localStorage.setItem(
+                        "username",
+                        payload.username ||
+                        username
+                    );
+
+
+                    localStorage.setItem(
+                        "role",
+                        payload.role || ""
+                    );
+
+
+                    if (
+                        payload.customer_id !== null &&
+                        payload.customer_id !== undefined
+                    ) {
+
+                        localStorage.setItem(
+                            "customer_id",
+                            payload.customer_id
+                        );
+                    }
+
+
+                    message.textContent =
+                        "Login successful. Redirecting...";
+
+                    message.className =
+                        "success";
+
+
+                    /*
+                     * Redirect to dashboard.
+                     */
+
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                "/frontend/dashboard.html";
+
+                        },
+                        500
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Login error:",
+                        error
+                    );
+
+
+                    message.textContent =
+                        "Error: " +
+                        error.message;
+
+                    message.className =
+                        "error";
+
+
+                    loginButton.disabled =
+                        false;
+
+                    loginButton.textContent =
+                        "Login";
+                }
+
+            }
         );
-    }
-}
 
-
-if (!response.ok) {
-
-    throw new Error(
-        data.detail ||
-        data.message ||
-        "Login failed with HTTP " + response.status
-    );
-}
-
-
-if (!data.access_token) {
-
-    throw new Error(
-        "Login response did not contain an access token."
-    );
-}
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    data.detail ||
-                    data.message ||
-                    "Login failed"
-                );
-            }
-
-
-            if (!data.access_token) {
-
-                throw new Error(
-                    "Login successful, but no access token was returned."
-                );
-            }
-
-
-            const token = data.access_token;
-
-            const payload = decodeJwt(token);
-
-
-            if (!payload) {
-
-                throw new Error(
-                    "Invalid authentication token received."
-                );
-            }
-
-
-            /*
-             * Clear previous session information.
-             */
-            localStorage.clear();
-
-
-            /*
-             * Store JWT token.
-             */
-            localStorage.setItem(
-                "access_token",
-                token
-            );
-
-
-            /*
-             * Store user information from JWT.
-             */
-            localStorage.setItem(
-                "username",
-                payload.username || username
-            );
-
-            localStorage.setItem(
-                "role",
-                payload.role || ""
-            );
-
-
-            if (payload.customer_id !== null &&
-                payload.customer_id !== undefined) {
-
-                localStorage.setItem(
-                    "customer_id",
-                    payload.customer_id
-                );
-            }
-
-
-            message.textContent = "Login successful. Redirecting...";
-            message.className = "success";
-
-
-            /*
-             * Redirect to dashboard.
-             */
-            setTimeout(function() {
-
-                window.location.href = "/frontend/dashboard.html";
-
-            }, 500);
-
-
-        } catch (error) {
-
-            console.error("Login error:", error);
-
-            message.textContent =
-                "Error: " + error.message;
-
-            message.className = "error";
-
-            loginButton.disabled = false;
-            loginButton.textContent = "Login";
-        }
-
-    });
-
-</script>
+    </script>
 
 </body>
+
 </html>

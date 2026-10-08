@@ -20,3 +20,6 @@ class ClaimResponse(BaseModel):
     claim_date: date
     description: str | None
     status: str | None
+
+class ClaimStatusUpdate(BaseModel):
+    status: str

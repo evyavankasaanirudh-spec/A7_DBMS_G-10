@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 
 from .database import get_db_connection
-from .schemas import ClaimCreate
+from .schemas import ClaimCreate, ClaimStatusUpdate
 from .kafka_producer import publish_claim_created
 
 
@@ -149,6 +149,89 @@ def get_claims():
             })
 
         return claims
+
+    finally:
+        cursor.close()
+        connection.close()
+
+@app.put("/claims/{claim_id}/status")
+def update_claim_status(
+    claim_id: int,
+    request: ClaimStatusUpdate
+):
+    allowed_statuses = {
+        "Pending",
+        "Under Review",
+        "Processed",
+        "Rejected"
+    }
+
+    if request.status not in allowed_statuses:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid claim status"
+        )
+
+    connection = get_db_connection()
+
+    if connection is None:
+        raise HTTPException(
+            status_code=500,
+            detail="Database connection failed"
+        )
+
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute(
+            """
+            UPDATE claims
+            SET status = %s
+            WHERE claim_id = %s
+            RETURNING claim_id, customer_id, policy_id,
+                      claim_amount, claim_type,
+                      claim_date, description, status
+            """,
+            (
+                request.status,
+                claim_id
+            )
+        )
+
+        row = cursor.fetchone()
+
+        if row is None:
+            connection.rollback()
+            raise HTTPException(
+                status_code=404,
+                detail="Claim not found"
+            )
+
+        connection.commit()
+
+        return {
+            "message": f"Claim {claim_id} status updated successfully",
+            "claim": {
+                "claim_id": row[0],
+                "customer_id": row[1],
+                "policy_id": row[2],
+                "claim_amount": float(row[3]),
+                "claim_type": row[4],
+                "claim_date": row[5],
+                "description": row[6],
+                "status": row[7]
+            }
+        }
+
+    except HTTPException:
+        raise
+
+    except Exception as error:
+        connection.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=str(error)
+        )
 
     finally:
         cursor.close()

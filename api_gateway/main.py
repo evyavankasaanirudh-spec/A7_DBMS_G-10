@@ -53,6 +53,9 @@ class ClaimRequest(BaseModel):
     claim_date: str
     description: str | None = None
 
+class ClaimStatusUpdate(BaseModel):
+    status: str
+
 
 class FraudRequest(BaseModel):
     claim_id: int
@@ -213,6 +216,36 @@ async def get_claims(current_user=Depends(get_current_user)):
         status_code=403,
         detail="You do not have permission to view claims"
     )
+
+@app.put("/claims/{claim_id}/status")
+async def update_claim_status(
+    claim_id: int,
+    request: ClaimStatusUpdate,
+    current_user=Depends(
+        require_roles("Admin", "Claim Officer")
+    )
+):
+    async with httpx.AsyncClient() as client:
+        response = await client.put(
+            f"{CLAIM_SERVICE}/claims/{claim_id}/status",
+            json=request.model_dump()
+        )
+
+    if response.status_code >= 400:
+        try:
+            detail = response.json().get(
+                "detail",
+                "Failed to update claim status"
+            )
+        except Exception:
+            detail = response.text
+
+        raise HTTPException(
+            status_code=response.status_code,
+            detail=detail
+        )
+
+    return response.json()
 
 
 # ==================================================
